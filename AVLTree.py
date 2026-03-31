@@ -1,9 +1,9 @@
 # This file defines the AVL Tree data structure
 
 class Node:
-
-    def __init__(self, key):
-        self.key = key
+    # Node constructor
+    def __init__(self, score, player_id):
+        self.key = (score, player_id)
         self.left = None
         self.right = None
         self.height = 0
@@ -13,9 +13,10 @@ class Node:
 
 
 class AVLTree:
+    # Empty tree constructor
+    def __init__(self):
+        self.root = None
 
-    def __init__(self, root):
-        self.key = None
 
 
 
