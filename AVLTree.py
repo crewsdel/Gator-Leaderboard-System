@@ -9,7 +9,33 @@ class Node:
         self.height = 0
         self.size = 1
 
+# Helper method to return the node height
+def height(node):
+    if node is None:
+        height = -1
+        return height
+    else:
+        height = node.height
+    return height
 
+# Helper method to return node size
+def size(node):
+    if node is None:
+        size = 0
+        return size
+    else:
+        size = node.size
+        return size
+
+# Helper method to calculate a node's balance
+def balance(node):
+    balance = height(node.left) - height(node.right)
+    return balance
+
+# Helper method to update a node's height and size after its children have been modified
+def update_node(node):
+    node.height = 1 + max(height(node.left), height(node.right))
+    node.size = 1 + size(node.left) + size(node.right)
 
 
 class AVLTree:
@@ -26,6 +52,18 @@ class AVLTree:
     # Helper for inserting player
     def _insert(self, node, score, player_id):
         pass
+        # Base case
+        if node is None:
+            node = Node(score, player_id)
+
+        if score > node.key:
+            node.left = self._insert(node.left, score, player_id)
+        elif score == node.key and player_id < node.key:
+            node.left = self._insert(node.left, score, player_id)
+        else:
+            node.right = self._insert(node.right, score, player_id)
+
+        return node
         # 1. If node is None → create new Node
         # 2. Compare (score, player_id) with node.key
         #    - if higher rank → go left
