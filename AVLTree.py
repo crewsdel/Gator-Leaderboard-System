@@ -179,7 +179,7 @@ class AVLTree:
         # Calculate balance
         bf = balance(node)
 
-        # Rebalance
+        # Rebalance the different cases
         if bf > 1:
             if balance(node.left) >= 0:
                 return _rotate_right(node)
