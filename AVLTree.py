@@ -147,11 +147,11 @@ class AVLTree:
         # Recursion
         if _comes_before_key(key, node.key):
             node.left = self._delete(node.left, key)
-        elif not _comes_before_key(key, node.key):
+        elif _comes_before_key(node.key, key):
             node.right = self._delete(node.right, key)
         else:
             # Case 1 - Node is a leaf
-            if node.right is None and node.left is None:
+            if node.left is None and node.right is None:
                 return None
 
             # Case 2 - Node has one child
@@ -186,7 +186,8 @@ class AVLTree:
             else:
                 node.left = _rotate_left(node.left)
                 return _rotate_right(node)
-        elif bf < -1:
+
+        if bf < -1:
             if balance(node.right) <= 0:
                 return _rotate_left(node)
             else:

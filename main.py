@@ -35,13 +35,21 @@ if __name__ == '__main__':
     # print(leaderboard.root.left.key)
 
     # Tie test case
-    leaderboard.insert(50, 1111)
-    leaderboard.insert(50, 2222)
-    leaderboard.insert(40, 4444)
-    leaderboard.insert(20, 2222)
-    leaderboard.insert(30, 3333)
-    pre_order(leaderboard.root)
-    print(leaderboard.root.right.key)
-    print(_get_height(leaderboard.root))
-    print(_get_size(leaderboard.root))
+    # leaderboard.insert(50, 1111)
+    # leaderboard.insert(50, 2222)
+    # leaderboard.insert(40, 4444)
+    # leaderboard.insert(20, 2222)
+    # leaderboard.insert(30, 3333)
+    # pre_order(leaderboard.root)
+    # print(leaderboard.root.right.key)
+    # print(_get_height(leaderboard.root))
+    # print(_get_size(leaderboard.root))
+
+    tree = AVLTree()
+    tree.insert(50, 222222)
+    tree.insert(50, 111111)
+    tree.insert(40, 333333)
+
+    tree.delete((50, 222222))
+    print(tree.root.key)
 
