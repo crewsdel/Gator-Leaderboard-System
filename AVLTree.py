@@ -195,3 +195,8 @@ class AVLTree:
                 return _rotate_left(node)
 
         return node
+
+    # Search by key function
+    def search_by_key(self, key):
+        self.root = self.search(self.root, key)
+    def search(self, node, key):
