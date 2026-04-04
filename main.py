@@ -1,4 +1,4 @@
-from AVLTree import Node, AVLTree, pre_order, _get_height, _get_size
+from AVLTree import Node, AVLTree, pre_order, _get_height, _get_size, search_by_key
 
 if __name__ == '__main__':
 
@@ -45,11 +45,18 @@ if __name__ == '__main__':
     # print(_get_height(leaderboard.root))
     # print(_get_size(leaderboard.root))
 
-    tree = AVLTree()
-    tree.insert(50, 222222)
-    tree.insert(50, 111111)
-    tree.insert(40, 333333)
+    # tree = AVLTree()
+    # tree.insert(50, 222222)
+    # tree.insert(50, 111111)
+    # tree.insert(40, 333333)
 
-    tree.delete((50, 222222))
-    print(tree.root.key)
+    tree = AVLTree()
+    tree.insert(50, 5555)
+    tree.insert(40,4444)
+    tree.insert(30,3333)
+    tree.insert(30, 3434)
+    tree.insert(10,1111)
+    print(pre_order(tree.root))
+    print(search_by_key(tree.root, (20,3333)))
+
 

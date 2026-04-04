@@ -9,6 +9,30 @@ class Node:
         self.height = 0
         self.size = 1
 
+
+# Helper function that returns True if two keys are equal
+def compare_keys(key1, key2):
+    if key1[0] == key2[0] and key1[1] == key2[1]:
+        return True
+    else:
+        return False
+
+    # Search by key function
+def search_by_key(node, key):
+    # Return None if the key does not exist
+    if node is None:
+        return False
+
+    # Return true if the key is found
+    if compare_keys(key, node.key):
+        return True
+
+    # If the current node comes before the node we are searching for, recurse right
+    if _comes_before_key(node.key, key):
+        return search_by_key(node.right, key)
+    else:
+        return search_by_key(node.left, key)
+
 # Helper method to return the node height
 def _get_height(node):
     if node is None:
@@ -77,8 +101,11 @@ def pre_order(node):
 
 # Helper method for comparing two tuple keys directly
 def _comes_before_key(key1, key2):
-    return (key1[0] > key2[0]) or (key1[0] == key2[0] and key1[1] < key2[1])
+    return (key1[0] > key2[0]) or ((key1[0] == key2[0] and key1[1] < key2[1]))
 
+
+
+# THIS IS WHERE THE AVL TREE CLASS BEGINS
 class AVLTree:
     # Empty tree constructor
     def __init__(self):
@@ -196,7 +223,4 @@ class AVLTree:
 
         return node
 
-    # Search by key function
-    def search_by_key(self, key):
-        self.root = self.search(self.root, key)
-    def search(self, node, key):
+
