@@ -1,4 +1,6 @@
-from AVLTree import Node, AVLTree, pre_order, _get_height, _get_size, search_by_key
+from AVLTree import Node, AVLTree, pre_order, _get_height, _get_size
+import gator_leaderboard_system
+from gator_leaderboard_system import initialize, insert_player, remove_player, get_rank, get_player_with_rank
 
 if __name__ == '__main__':
 
@@ -45,18 +47,24 @@ if __name__ == '__main__':
     # print(_get_height(leaderboard.root))
     # print(_get_size(leaderboard.root))
 
-    # tree = AVLTree()
-    # tree.insert(50, 222222)
-    # tree.insert(50, 111111)
-    # tree.insert(40, 333333)
-
     tree = AVLTree()
-    tree.insert(50, 5555)
-    tree.insert(40,4444)
-    tree.insert(30,3333)
-    tree.insert(30, 3434)
-    tree.insert(10,1111)
-    print(pre_order(tree.root))
-    print(search_by_key(tree.root, (20,3333)))
+    tree.insert(50, 222222)
+    tree.insert(40, 333333)
+
+    # print(tree.rank((50, 222222)))
+    # print(tree.select(1))
+
+
+
+    initialize()
+    insert_player(30, 333333)
+    insert_player(10, 111111)
+    insert_player(40, 444444)
+    insert_player(60, 666666)
+
+    get_rank(666666)
+    get_rank(22222)
+    get_player_with_rank(1)
+
 
 

@@ -17,22 +17,6 @@ def compare_keys(key1, key2):
     else:
         return False
 
-    # Search by key function
-def search_by_key(node, key):
-    # Return None if the key does not exist
-    if node is None:
-        return False
-
-    # Return true if the key is found
-    if compare_keys(key, node.key):
-        return True
-
-    # If the current node comes before the node we are searching for, recurse right
-    if _comes_before_key(node.key, key):
-        return search_by_key(node.right, key)
-    else:
-        return search_by_key(node.left, key)
-
 # Helper method to return the node height
 def _get_height(node):
     if node is None:
@@ -101,19 +85,22 @@ def pre_order(node):
 
 # Helper method for comparing two tuple keys directly
 def _comes_before_key(key1, key2):
-    return (key1[0] > key2[0]) or ((key1[0] == key2[0] and key1[1] < key2[1]))
+    return (key1[0] > key2[0]) or (key1[0] == key2[0] and key1[1] < key2[1])
 
 
 
 # THIS IS WHERE THE AVL TREE CLASS BEGINS
 class AVLTree:
+
     # Empty tree constructor
     def __init__(self):
         self.root = None
 
+
     # Inserts a player into the tree
     def insert(self, score, player_id):
         self.root = self._insert(self.root, score, player_id)
+
 
     # Helper for inserting player
     def _insert(self, node, score, player_id):
@@ -154,9 +141,11 @@ class AVLTree:
 
         return node
 
+
     # Removes a player from the tree using the node's key
     def delete(self,key):
         self.root = self._delete(self.root, key)
+
 
     # Delete helper to find the successor when a deleted node has two children
     def _get_min_node(self, node):
@@ -164,6 +153,7 @@ class AVLTree:
         while curr.left is not None:
             curr = curr.left
         return curr
+
 
     # Delete helper method
     def _delete(self, node, key):
@@ -222,5 +212,80 @@ class AVLTree:
                 return _rotate_left(node)
 
         return node
+
+
+    # Function for returning a node's rank
+    def rank(self, key):
+        return self._rank(self.root, key)
+
+
+    # Helper for determining a node's rank
+    def _rank(self, node, key):
+        # Return none if the node is not found
+        if node is None:
+            return None
+
+        # If the key is greater than the current node's key recurse left
+        if _comes_before_key(key, node.key):
+            return self._rank(node.left, key)
+
+        # if the current node's key is greater than the key recurse right
+        elif _comes_before_key(node.key, key):
+            # Find the node's rank in the right subtree
+            right_rank = self._rank(node.right, key)
+            # Handle if the node does not exist in the right subtree
+            if right_rank is None:
+                return None
+            # Add the size of the left tree to the node's rank in the right subtree
+            return _get_size(node.left) + 1 + right_rank
+
+        # The current node is the target node
+        else:
+            return _get_size(node.left) + 1
+
+
+    # Method for returning the player with rank k
+    def select(self, k):
+        # Check for invalid rank arguments (k < 1 or k > the entire tree size
+        if k <= 0 or k > _get_size(self.root):
+            return None
+        # Otherwise, call the _select helper
+        return self._select(self.root, k)
+
+
+    # Helper method for select
+    def _select(self, node, k):
+        if node is None:
+            return None
+
+        left_size = _get_size(node.left)
+
+        if k == left_size + 1:
+            return node
+        elif k <= left_size:
+            return self._select(node.left, k)
+        else:
+            return self._select(node.right, k - left_size - 1)
+
+    # Method that searches a node by its key
+    def search_by_key(self, key):
+        return self._search_by_key(self.root, key)
+
+    # Helper method for search by key
+    def _search_by_key(self, node, key):
+
+        # Return false if the searched key does not exist
+        if node is None:
+            return False
+
+        # If the current node comes before the node we are searching for, recurse right
+        if _comes_before_key(node.key, key):
+            return self._search_by_key(node.right, key)
+        # If the target key comes before the current node, recurse left
+        elif _comes_before_key(key, node.key):
+            return self._search_by_key(node.left, key)
+        # The nodes are equal, return true
+        else:
+            return True
 
 
