@@ -1,8 +1,0 @@
-initialize()
-insert_player(10, 123456)
-insert_player(20, 123456)
-insert_player(30, 99999)
-remove_player(111111)
-add_score(5, 111111)
-get_rank(123456)
-quit()

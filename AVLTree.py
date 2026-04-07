@@ -17,12 +17,14 @@ def compare_keys(key1, key2):
     else:
         return False
 
+
 # Helper method to return the node height
 def _get_height(node):
     if node is None:
         return -1
     else:
         return node.height
+
 
 # Helper method to return node size
 def _get_size(node):
@@ -32,16 +34,19 @@ def _get_size(node):
     else:
         return node.size
 
+
 # Helper method to calculate a node's balance
 def balance(node):
     if node is None:
         return 0
     return _get_height(node.left) - _get_height(node.right)
 
+
 # Helper method to update a node's height and size after its children have been modified
 def _update_node(node):
     node.height = 1 + max(_get_height(node.left), _get_height(node.right))
     node.size = 1 + _get_size(node.left) + _get_size(node.right)
+
 
 # Helper method for comparing two nodes to avoid repeating score and id logic
 def comes_before(node, new_score, new_player_id):
@@ -49,6 +54,7 @@ def comes_before(node, new_score, new_player_id):
         return True
     else:
         return False
+
 
 # Method for a right rotation on a node
 def _rotate_right(node):
@@ -62,6 +68,7 @@ def _rotate_right(node):
     _update_node(left_child)
 
     return left_child
+
 
 # Method for left rotation on a node
 def _rotate_left(node):
@@ -77,30 +84,20 @@ def _rotate_left(node):
 
     return right_child
 
-def pre_order(node):
-    if node:
-        print(node.key[0], end=" ")
-        pre_order(node.left)
-        pre_order(node.right)
 
 # Helper method for comparing two tuple keys directly
 def _comes_before_key(key1, key2):
     return (key1[0] > key2[0]) or (key1[0] == key2[0] and key1[1] < key2[1])
 
 
-
-# THIS IS WHERE THE AVL TREE CLASS BEGINS
 class AVLTree:
-
     # Empty tree constructor
     def __init__(self):
         self.root = None
 
-
     # Inserts a player into the tree
     def insert(self, score, player_id):
         self.root = self._insert(self.root, score, player_id)
-
 
     # Helper for inserting player
     def _insert(self, node, score, player_id):
@@ -122,7 +119,7 @@ class AVLTree:
         bf = balance(node)
 
         # RR case -> left rotate on the current node
-        if bf < -1 and comes_before(node.right, score, player_id) == False:
+        if bf < -1 and not comes_before(node.right, score, player_id):
             return _rotate_left(node)
 
         ## LL case -> right rotate on the current node
@@ -135,7 +132,7 @@ class AVLTree:
             return _rotate_left(node)
 
         # LR case -> left rotate on left child, right rotate on the current node
-        if bf > 1 and comes_before(node.left, score, player_id) == False:
+        if bf > 1 and not comes_before(node.left, score, player_id):
             node.left = _rotate_left(node.left)
             return _rotate_right(node)
 
@@ -247,8 +244,10 @@ class AVLTree:
     # Method for returning the player with rank k
     def select(self, k):
         # Check for invalid rank arguments (k < 1 or k > the entire tree size
+        k = int(k)
         if k <= 0 or k > _get_size(self.root):
             return None
+
         # Otherwise, call the _select helper
         return self._select(self.root, k)
 
@@ -267,9 +266,11 @@ class AVLTree:
         else:
             return self._select(node.right, k - left_size - 1)
 
+
     # Method that searches a node by its key
     def search_by_key(self, key):
         return self._search_by_key(self.root, key)
+
 
     # Helper method for search by key
     def _search_by_key(self, node, key):
